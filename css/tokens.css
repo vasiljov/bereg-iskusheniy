@@ -1,0 +1,144 @@
+/* ============================================================
+   CABARET · Берег Искушений — Design Tokens
+   colors_and_type.css
+   Dark-first, gold-as-jewelry, theatrical luxury.
+   Import after the Google Fonts link (see README / fonts note).
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Catamaran:wght@200;300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+:root{
+  /* ---------- GROUNDS (the stage) ---------- */
+  --ink:#000000;          /* true black, deepest ground */
+  --abyss:#0A0A0A;        /* near-black panels */
+  --night:#1A1F22;        /* teal-tinted dark (water depth) */
+  --slate-dark:#1E1E1E;   /* card / surface base */
+  --surface:#242A2E;      /* raised card on dark */
+
+  /* ---------- GOLD (the signature) ---------- */
+  --gold:#C8A951;         /* primary gold accent */
+  --gold-bright:#E3C977;  /* highlight / hover */
+  --gold-deep:#9A7E33;    /* shadow side of gold */
+  --gold-soft:rgba(200,169,81,.16);
+
+  /* ---------- WARM LIGHT (text on dark) ---------- */
+  --cream:#F0E8DA;        /* primary light text */
+  --cream-dim:#C7C7C7;    /* secondary / body text */
+  --mute:#9E9E9E;         /* tertiary / captions */
+  --mute-deep:#888888;
+  --hair:#444444;         /* dividers, faint borders */
+
+  /* ---------- SUPPORT (emotion) ---------- */
+  --water:#657E93;        /* slate-blue, the lake */
+  --water-bright:#94CDDC; /* icy highlight */
+  --berry:#9B2142;        /* wine / temptation */
+  --berry-deep:#6B1A2E;   /* deep berry footer */
+  --rose:#D89793;         /* dusty rose */
+  --terracotta:#D4826A;   /* warm accent */
+
+  /* ---------- GRADIENTS (signature treatments) ---------- */
+  --grad-gold:linear-gradient(150deg,var(--gold-bright),var(--gold) 55%,var(--gold-deep));
+  --grad-gold-text:linear-gradient(160deg,#F6E5A8 0%,var(--gold) 40%,var(--gold-deep) 70%,#F6E5A8 100%);
+  --grad-berry:linear-gradient(90deg,var(--berry-deep),var(--berry));
+  --grad-stage:radial-gradient(1200px 700px at 78% -8%, rgba(200,169,81,.10), transparent 60%),
+               radial-gradient(900px 600px at 10% 30%, rgba(101,126,147,.14), transparent 55%),
+               linear-gradient(180deg,#05080A 0%,#0A0E11 40%,#060809 100%);
+
+  /* ---------- TYPE FAMILIES ---------- */
+  --font-display:"DM Serif Display", Georgia, "Times New Roman", serif;
+  --font-body:"Catamaran", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-accent:"Cormorant Garamond", Georgia, serif;
+  --font-mono:"SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  /* ---------- TYPE SCALE (clamped, fluid) ---------- */
+  --fs-monogram:clamp(74px,14vw,150px);
+  --fs-display-1:clamp(40px,7vw,86px);   /* hero h1 */
+  --fs-display-2:clamp(34px,5vw,56px);   /* section display */
+  --fs-display-3:clamp(28px,4.4vw,46px); /* section title */
+  --fs-accent:clamp(24px,3.4vw,34px);    /* italic taglines */
+  --fs-h4:30px;                          /* card big number / heading */
+  --fs-lead:18px;
+  --fs-body:16px;
+  --fs-small:13.5px;
+  --fs-label:12px;                       /* eyebrow / tracked label */
+  --lh-tight:1.05;
+  --lh-body:1.6;
+
+  /* tracking */
+  --track-label:.4em;     /* eyebrows / uppercase labels */
+  --track-display:.16em;  /* hero headline */
+  --track-btn:.18em;
+
+  /* ---------- RADII ---------- */
+  --radius-sm:10px;       /* banners, small chips */
+  --radius:14px;          /* default card */
+  --radius-lg:22px;       /* large surface */
+  --radius-pill:40px;     /* buttons */
+
+  /* ---------- ELEVATION / SHADOW ---------- */
+  --shadow-card:0 18px 44px rgba(0,0,0,.5);
+  --shadow-gold:0 8px 24px rgba(200,169,81,.30);
+  --shadow-gold-hover:0 12px 32px rgba(200,169,81,.45);
+  --glow-medallion:0 6px 18px rgba(200,169,81,.18);
+
+  /* ---------- BORDERS / HAIRLINES ---------- */
+  --border-faint:1px solid rgba(255,255,255,.06);
+  --border-gold:1px solid var(--gold);
+  --border-section:1px solid rgba(255,255,255,.05);
+
+  /* ---------- SPACING (8pt-ish rhythm) ---------- */
+  --space-1:4px;
+  --space-2:8px;
+  --space-3:14px;
+  --space-4:22px;
+  --space-5:34px;
+  --space-6:54px;
+  --space-7:74px;   /* section vertical padding */
+
+  /* ---------- LAYOUT ---------- */
+  --maxw:1180px;
+  --transition:.28s ease;
+}
+
+/* ============================================================
+   SEMANTIC TYPE ROLES
+   Apply these classes directly, or use the vars above.
+   ============================================================ */
+
+.cb-monogram{
+  font-family:var(--font-display);
+  font-size:var(--fs-monogram);
+  line-height:.9;letter-spacing:.04em;
+  background:var(--grad-gold-text);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 6px 30px rgba(200,169,81,.35));
+}
+.cb-display-1{
+  font-family:var(--font-display);
+  font-size:var(--fs-display-1);
+  letter-spacing:var(--track-display);
+  color:var(--cream);line-height:var(--lh-tight);
+}
+.cb-display-2{font-family:var(--font-display);font-size:var(--fs-display-2);color:var(--cream);line-height:var(--lh-tight);}
+.cb-title{font-family:var(--font-display);font-size:var(--fs-display-3);color:var(--cream);letter-spacing:.01em;}
+.cb-accent{font-family:var(--font-accent);font-style:italic;font-size:var(--fs-accent);color:var(--gold-bright);letter-spacing:.05em;}
+.cb-lead{font-family:var(--font-body);font-size:var(--fs-lead);color:var(--cream-dim);line-height:var(--lh-body);}
+.cb-body{font-family:var(--font-body);font-size:var(--fs-body);color:var(--cream-dim);line-height:var(--lh-body);font-weight:400;}
+.cb-eyebrow{
+  font-family:var(--font-body);
+  font-size:var(--fs-label);
+  letter-spacing:var(--track-label);
+  text-transform:uppercase;color:var(--gold);font-weight:500;
+}
+.cb-mono{font-family:var(--font-mono);font-size:12px;letter-spacing:.04em;color:var(--mute);}
+
+/* ============================================================
+   CORE RESET-LITE (optional convenience)
+   ============================================================ */
+.cb-stage{
+  background:var(--grad-stage);
+  color:var(--cream);
+  font-family:var(--font-body);
+  line-height:var(--lh-body);
+  -webkit-font-smoothing:antialiased;
+}

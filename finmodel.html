@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Берег Искушений · Интерактивная финмодель</title>
+<meta name="description" content="Интерактивная финансовая модель проекта «Берег Искушений»: меняйте сценарий и число шоу в неделю по годам — выручка, EBITDA, прибыль и окупаемость пересчитываются вживую.">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/site.css?v=team2">
+<link rel="stylesheet" href="css/finmodel.css?v=1">
+</head>
+<body class="cb-stage">
+
+<!-- ===================== GLOBAL VIDEO BACKGROUND ===================== -->
+<div class="site-bg" aria-hidden="true">
+  <video class="site-bg__video" autoplay muted loop playsinline preload="none" data-src="assets/water-bg.mp4"></video>
+  <div class="site-bg__veil"></div>
+</div>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav">
+  <a class="nav__brand" href="index.html#top">
+    <span class="nav__mono">БИ</span>
+    <span class="nav__name">Берег Искушений</span>
+  </a>
+  <div class="nav__links">
+    <a href="#play">Поиграй с цифрами</a>
+    <a href="#pl">Финмодель</a>
+    <a href="#scaling">Франшиза</a>
+    <a href="index.html#initial">Кабаре</a>
+    <a href="index.html#show">Шоу</a>
+  </div>
+  <a class="nav__cta" href="index.html#contact">Связаться</a>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<section class="section fm-hero" id="play" data-screen-label="Финмодель — шапка">
+  <div class="wrap wrap--wide">
+    <a class="fm-back" href="index.html#invest">← Назад к экономике проекта</a>
+    <div class="sec-head">
+      <span class="eyebrow">Интерактивная финансовая модель</span>
+      <h2 class="sec-title">Проверьте цифры сами</h2>
+      <p class="sec-sub">Выберите сценарий и задайте число шоу в неделю по каждому из трёх лет — выручка, EBITDA, чистая прибыль, окупаемость и кривая денежного потока пересчитываются вживую. Базовый сценарий при дефолтных значениях даёт ровно те цифры, что на предыдущем экране.</p>
+    </div>
+
+    <div class="fm-grid">
+      <!-- ============ CONTROLS ============ -->
+      <div class="fm-controls">
+        <div class="fm-panel">
+          <div class="fm-panel__h">Сценарий</div>
+          <div class="fm-scen">
+            <button class="fm-scen__btn" data-scen="cons" type="button">
+              <span class="nm">Консервативный</span><span class="mt" id="occBtn_cons">63% зал</span>
+            </button>
+            <button class="fm-scen__btn" data-scen="base" type="button">
+              <span class="nm">Базовый</span><span class="mt" id="occBtn_base">75% зал</span>
+            </button>
+            <button class="fm-scen__btn" data-scen="opt" type="button">
+              <span class="nm">Оптимистичный</span><span class="mt" id="occBtn_opt">96% зал</span>
+            </button>
+          </div>
+          <p class="fm-note" style="margin-top:16px;">Главное различие сценариев — это <b>наполняемость зала</b> (доля проданных мест на шоу). Настройте её ниже.</p>
+        </div>
+
+        <div class="fm-panel">
+          <div class="fm-panel__h">Наполняемость зала</div>
+          <p class="fm-note" style="margin-bottom:18px;">Доля проданных мест на шоу. Базовый сценарий зафиксирован как точка отсчёта; Консервативный и Оптимистичный можно менять.</p>
+          <div class="fm-occ">
+            <div class="fm-occ__row" id="occRow_cons">
+              <div class="fm-occ__top">
+                <span class="fm-occ__nm">Консервативный</span>
+                <span class="fm-occ__val" id="occVal_cons">63%</span>
+              </div>
+              <div class="fm-occ__meter"><i class="fm-occ__bar" id="occBar_cons" style="width:63%"></i><b class="fm-occ__ref" style="left:75%"></b></div>
+              <input type="range" class="fm-range fm-range--sm" id="occSlider_cons" min="40" max="100" step="1" value="63" aria-label="Наполняемость, консервативный">
+            </div>
+            <div class="fm-occ__row is-locked" id="occRow_base">
+              <div class="fm-occ__top">
+                <span class="fm-occ__nm">Базовый <svg class="fm-lock" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 8V7a3 3 0 0 1 6 0v3H9z"/></svg></span>
+                <span class="fm-occ__val" id="occVal_base">75%</span>
+              </div>
+              <div class="fm-occ__meter"><i class="fm-occ__bar" id="occBar_base" style="width:75%"></i><b class="fm-occ__ref" style="left:75%"></b></div>
+              <div class="fm-occ__fixed">фиксирован — точка отсчёта</div>
+            </div>
+            <div class="fm-occ__row" id="occRow_opt">
+              <div class="fm-occ__top">
+                <span class="fm-occ__nm">Оптимистичный</span>
+                <span class="fm-occ__val" id="occVal_opt">96%</span>
+              </div>
+              <div class="fm-occ__meter"><i class="fm-occ__bar" id="occBar_opt" style="width:96%"></i><b class="fm-occ__ref" style="left:75%"></b></div>
+              <input type="range" class="fm-range fm-range--sm" id="occSlider_opt" min="40" max="100" step="1" value="96" aria-label="Наполняемость, оптимистичный">
+            </div>
+          </div>
+        </div>
+
+        <div class="fm-panel">
+          <div class="fm-panel__h">Шоу в неделю</div>
+          <div class="fm-shows">
+            <div class="fm-show">
+              <div class="fm-show__top">
+                <span class="fm-show__lbl">Год 1</span>
+                <span class="fm-show__val"><span id="showVal0">4</span><small>шоу/нед</small></span>
+              </div>
+              <input type="range" class="fm-range" id="showSlider0" min="2" max="7" step="1" value="4" aria-label="Шоу в неделю, год 1">
+              <div class="fm-range__scale"><span>2</span><span>7</span></div>
+              <div class="fm-show__sub" id="showYear0">≈ 208 шоу / год</div>
+            </div>
+            <div class="fm-show">
+              <div class="fm-show__top">
+                <span class="fm-show__lbl">Год 2</span>
+                <span class="fm-show__val"><span id="showVal1">5</span><small>шоу/нед</small></span>
+              </div>
+              <input type="range" class="fm-range" id="showSlider1" min="2" max="7" step="1" value="5" aria-label="Шоу в неделю, год 2">
+              <div class="fm-range__scale"><span>2</span><span>7</span></div>
+              <div class="fm-show__sub" id="showYear1">≈ 260 шоу / год</div>
+            </div>
+            <div class="fm-show">
+              <div class="fm-show__top">
+                <span class="fm-show__lbl">Год 3</span>
+                <span class="fm-show__val"><span id="showVal2">6</span><small>шоу/нед</small></span>
+              </div>
+              <input type="range" class="fm-range" id="showSlider2" min="2" max="7" step="1" value="6" aria-label="Шоу в неделю, год 3">
+              <div class="fm-range__scale"><span>2</span><span>7</span></div>
+              <div class="fm-show__sub" id="showYear2">≈ 312 шоу / год</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ OUTPUTS ============ -->
+      <div class="fm-outputs">
+        <div class="fm-kpis">
+          <div class="kpi">
+            <div class="kpi__l">Чистая прибыль · 3 года</div>
+            <div class="kpi__v"><span id="kpiProfit">2 337</span><small>млн ₽</small></div>
+            <div class="kpi__delta is-flat" id="profitDelta">официальный сценарий</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi__l">ROI за 3 года</div>
+            <div class="kpi__v" id="kpiRoi">10,6×</div>
+            <div class="kpi__delta is-flat">прибыль / инвестиции</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi__l">Окупаемость</div>
+            <div class="kpi__v"><span id="kpiPayback">14</span><small>мес</small></div>
+            <div class="kpi__delta is-flat">от старта проекта</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi__l">Пик инвестиций</div>
+            <div class="kpi__v"><span id="kpiPeak">220,4</span><small>млн ₽</small></div>
+            <div class="kpi__delta is-flat">запрос к инвестору</div>
+          </div>
+        </div>
+
+        <div class="fm-chart">
+          <div class="fm-chart__head">
+            <div>
+              <h3>Денежный поток нарастающим итогом</h3>
+              <div class="sub">Кумулятивный кэш (EBITDA) за вычетом инвестиций, млн ₽ · EBITDA-маржа 3-го года: <span id="ebMargin" style="color:var(--gold-bright)">44,4%</span></div>
+            </div>
+            <div class="fm-chart__legend">
+              <div class="li"><span class="dot" style="background:#9B2142;"></span>Инвест. фаза</div>
+              <div class="li"><span class="dot" style="background:#E3C977;"></span>Возврат и прибыль</div>
+            </div>
+          </div>
+          <svg id="cfChart" viewBox="0 0 880 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="График денежного потока нарастающим итогом"></svg>
+        </div>
+
+        <div class="fm-table-wrap">
+          <h3>Выручка по годам</h3>
+          <div class="fm-rev">
+            <div class="rev"><div class="l">Год 1</div><div class="v"><span id="revY1">762</span><small>млн ₽</small></div></div>
+            <div class="rev"><div class="l">Год 2</div><div class="v"><span id="revY2">1 948</span><small>млн ₽</small></div></div>
+            <div class="rev"><div class="l">Год 3</div><div class="v"><span id="revY3">3 499</span><small>млн ₽</small></div></div>
+            <div class="rev"><div class="l">Σ за 3 года</div><div class="v"><span id="rev3y">6 209</span><small>млн ₽</small></div></div>
+          </div>
+        </div>
+
+        <div class="fm-table-wrap">
+          <h3>P&amp;L · отчёт по годам, млн ₽</h3>
+          <table class="fm-pl">
+            <thead>
+              <tr><th scope="col">Показатель</th><th scope="col">Год 1</th><th scope="col">Год 2</th><th scope="col">Год 3</th><th scope="col">Σ 3 года</th></tr>
+            </thead>
+            <tbody id="plBody"></tbody>
+          </table>
+        </div>
+
+        <div class="fm-panel">
+          <div class="fm-panel__h">Допущения модели</div>
+          <p class="fm-note" style="margin-bottom:18px;">Значения по умолчанию калиброваны под официальную финмодель. Их можно изменить — таблица и график пересчитаются.</p>
+          <div class="fm-asm">
+            <div class="fm-asm__row">
+              <label for="asmVar">Переменные затраты<span class="hint">артисты, постановка, F&amp;B-себестоимость, эквайринг — % от выручки</span></label>
+              <div style="display:flex;align-items:center;gap:8px;"><input class="fm-input" type="number" id="asmVar" min="10" max="60" step="1" value="30"><span style="color:var(--mute);font-family:var(--font-mono);font-size:13px;">%</span></div>
+            </div>
+            <div>
+              <label style="font-size:12.5px;color:var(--cream-dim);display:block;margin-bottom:10px;">Постоянные затраты по годам<span class="hint" style="display:block;margin-top:2px;">аренда, ядро команды, маркетинг, накладные — млн ₽/год</span></label>
+              <div class="fm-asm__fix">
+                <div class="col"><span>Год 1</span><input class="fm-input" type="number" id="asmFix0" min="0" step="1" value="413.6"></div>
+                <div class="col"><span>Год 2</span><input class="fm-input" type="number" id="asmFix1" min="0" step="1" value="620.3"></div>
+                <div class="col"><span>Год 3</span><input class="fm-input" type="number" id="asmFix2" min="0" step="1" value="895.7"></div>
+              </div>
+            </div>
+            <button class="fm-reset" id="asmReset" type="button">Сбросить к официальной модели</button>
+          </div>
+        </div>
+
+        <p class="fm-foot">Модель носит иллюстративный характер и калибрована по опубликованным якорям проекта (выручка по годам, EBITDA-маржа, ROI и окупаемость трёх сценариев). Окупаемость считается по кумулятивному денежному потоку (EBITDA за вычетом инвестиций в первые 5 месяцев). Все данные предварительные и требуют уточнения.</p>
+
+        <div style="margin-top:8px;"><a class="btn btn-primary" href="index.html#contact">Обсудить участие в проекте →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== P&L 36 MONTHS (live) ===================== -->
+<section class="section" id="pl" data-screen-label="P&L 36 мес">
+  <div class="wrap wrap--wide">
+    <div class="sec-head">
+      <span class="eyebrow">Финансовая модель</span>
+      <h2 class="sec-title">Помесячный P&amp;L · 36 месяцев</h2>
+      <p class="sec-sub">Полный отчёт о прибылях и убытках по месяцам. Нажмите строку со стрелкой, чтобы раскрыть подстатьи.</p>
+    </div>
+    <div class="pl-wrap">
+      <div id="pl36" class="pl-mount"><p class="pl-loading">Загрузка данных из финмодели…</p></div>
+      <div class="pl-foot">
+        <span class="pl-hint">Суммы в ₽ млн · стрелка раскрывает подстатьи</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SCALING (Upside Франшизы) ===================== -->
+<section class="section" id="scaling" data-screen-label="Масштабирование">
+  <div class="wrap wrap--wide">
+    <div class="sec-head">
+      <span class="eyebrow">Масштабирование</span>
+      <h2 class="sec-title">Upside: франшиза кабаре и школы</h2>
+      <p class="sec-sub">За первые три года франшиза только запускается — её вклад в прибыль пока невелик. Ценность в другом: это механизм тиражирования бренда. Каждая точка приносит паушальный взнос и роялти, а собственная школа стриппластики даёт поток подготовленных артистов и новые номера.</p>
+    </div>
+    <div class="pl-wrap">
+      <div id="scale36" class="pl-mount"></div>
+      <div class="pl-foot">
+        <span class="pl-hint">Суммы в ₽ млн · клик по секции сворачивает строки</span>
+      </div>
+      <p class="fm-note" style="margin-top:18px;max-width:70ch;">Юнит-экономика точки: одна франшиза школы выходит на ≈ ₽15 млн выручки в год к 3-му году; роялти и паушальные взносы — доход управляющей компании сверх базового сценария. Полный потенциал раскрывается за горизонтом трёх лет, по мере роста сети.</p>
+      <div style="margin-top:28px;text-align:center;"><a class="btn btn-primary" href="index.html#contact">Обсудить участие в проекте →</a></div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">Берег Искушений · Кабаре · Cabaret Weekend</footer>
+
+<script src="js/finmodel.js?v=1"></script>
+<script src="js/pl-table.js?v=1"></script>
+<script src="js/scaling-table.js?v=1"></script>
+<script>
+(function(){
+  var v=document.querySelector('.site-bg__video[data-src]');
+  if(!v)return;
+  fetch(v.dataset.src).then(function(r){return r.blob();}).then(function(b){
+    v.src=URL.createObjectURL(b);
+    var p=v.play();if(p&&p.catch)p.catch(function(){});
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>
