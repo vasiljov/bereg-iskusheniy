@@ -963,7 +963,7 @@
 })();
 </script>
 <script>
-/* ===================== PHOTO LIGHTBOX ===================== */
+/* ===================== PHOTO LIGHTBOX (gallery) ===================== */
 (function(){
   var SEL='.loc-gallery img, .loc__plan img, .loc__map--photo img, .loc-estate__fig img';
   var imgs=[].slice.call(document.querySelectorAll(SEL));
@@ -973,15 +973,34 @@
   lb.className='lightbox';
   lb.setAttribute('role','dialog');
   lb.setAttribute('aria-modal','true');
-  lb.innerHTML='<button class="lightbox__close" type="button" aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7l1.4-1.4 6.3 6.3 6.3-6.3z"></path></svg></button><img class="lightbox__img" alt=""><div class="lightbox__cap"></div>';
+  lb.innerHTML=''
+    +'<button class="lightbox__close" type="button" aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7l1.4-1.4 6.3 6.3 6.3-6.3z"></path></svg></button>'
+    +'<button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Предыдущее фото"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 4.6L8 12l7.4 7.4 1.4-1.4L10.8 12l6-6z"></path></svg></button>'
+    +'<button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Следующее фото"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 4.6L16 12l-7.4 7.4-1.4-1.4L13.2 12l-6-6z"></path></svg></button>'
+    +'<div class="lightbox__stage"><img class="lightbox__img" alt=""></div>'
+    +'<div class="lightbox__cap"></div>'
+    +'<div class="lightbox__count"></div>';
   document.body.appendChild(lb);
   var lbImg=lb.querySelector('.lightbox__img');
   var lbCap=lb.querySelector('.lightbox__cap');
-  var lastFocus=null;
+  var lbCount=lb.querySelector('.lightbox__count');
+  var btnPrev=lb.querySelector('.lightbox__nav--prev');
+  var btnNext=lb.querySelector('.lightbox__nav--next');
+  var lastFocus=null, cur=0;
 
-  function open(src,alt){
+  function srcOf(img){return img.getAttribute('src')||img.currentSrc||img.src;}
+  function render(){
+    var img=imgs[cur];
+    lbImg.src=srcOf(img); lbImg.alt=img.alt||'';
+    lbCap.textContent=img.alt||'';
+    lbCount.textContent=(cur+1)+' / '+imgs.length;
+    // preload neighbours
+    [cur-1,cur+1].forEach(function(n){var k=(n+imgs.length)%imgs.length;var p=new Image();p.src=srcOf(imgs[k]);});
+  }
+  function open(i){
     lastFocus=document.activeElement;
-    lbImg.src=src; lbImg.alt=alt||''; lbCap.textContent=alt||'';
+    cur=(i+imgs.length)%imgs.length;
+    render();
     lb.classList.add('is-open');
     document.documentElement.style.overflow='hidden';
     document.body.style.overflow='hidden';
@@ -993,12 +1012,29 @@
     setTimeout(function(){lbImg.src='';},250);
     if(lastFocus&&lastFocus.focus)try{lastFocus.focus();}catch(e){}
   }
-  lb.addEventListener('click',function(){close();});
-  lb.querySelector('.lightbox__img').addEventListener('click',function(e){e.stopPropagation();close();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('is-open'))close();});
+  function go(d){cur=(cur+d+imgs.length)%imgs.length;render();}
+
+  lb.addEventListener('click',function(e){if(e.target===lb||e.target.classList.contains('lightbox__stage'))close();});
+  lb.querySelector('.lightbox__close').addEventListener('click',function(e){e.stopPropagation();close();});
+  btnPrev.addEventListener('click',function(e){e.stopPropagation();go(-1);});
+  btnNext.addEventListener('click',function(e){e.stopPropagation();go(1);});
+  document.addEventListener('keydown',function(e){
+    if(!lb.classList.contains('is-open'))return;
+    if(e.key==='Escape')close();
+    else if(e.key==='ArrowLeft')go(-1);
+    else if(e.key==='ArrowRight')go(1);
+  });
+  // swipe
+  var sx=0,sy=0,sw=false;
+  lb.addEventListener('touchstart',function(e){var t=e.changedTouches[0];sx=t.clientX;sy=t.clientY;sw=true;},{passive:true});
+  lb.addEventListener('touchend',function(e){
+    if(!sw)return;sw=false;
+    var t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;
+    if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)){go(dx<0?1:-1);}
+  },{passive:true});
 
   var BADGE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6h-2V6.4l-3.3 3.3-1.4-1.4L17.6 5H15V3zM3 15h2v2.6l3.3-3.3 1.4 1.4L6.4 19H9v2H3v-6z"></path></svg>';
-  imgs.forEach(function(img){
+  imgs.forEach(function(img,index){
     var wrap=document.createElement('div');
     wrap.className='zoom-wrap';
     img.parentNode.insertBefore(wrap,img);
@@ -1009,9 +1045,7 @@
     badge.setAttribute('aria-label','Открыть фото во весь экран');
     badge.innerHTML=BADGE;
     wrap.appendChild(badge);
-    function go(e){e.preventDefault();e.stopPropagation();open(img.currentSrc||img.src,img.alt);}
-    img.addEventListener('click',go);
-    badge.addEventListener('click',go);
+    badge.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();open(index);});
   });
 })();
 </script>
