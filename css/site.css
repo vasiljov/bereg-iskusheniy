@@ -543,7 +543,7 @@ body[data-theme]{transition:none;}
   background:radial-gradient(120% 120% at 50% 40%, rgba(5,8,10,.6), rgba(5,8,10,.74) 60%, rgba(5,8,10,.85));}
 .contact__logo{display:block;width:min(620px,80vw);height:auto;margin:0 auto 8px;filter:drop-shadow(0 12px 40px rgba(0,0,0,.6));}
 @media(prefers-reduced-motion:reduce){.contact__reel-v{transition:none;}}
-.contact__inner{max-width:var(--maxw);margin:0 auto;padding:var(--space-7) 32px;text-align:center;position:relative;z-index:2;}
+.contact__inner{max-width:var(--maxw);min-width:0;margin:0 auto;padding:var(--space-7) 32px;text-align:center;position:relative;z-index:2;}
 .contact__mono{font-family:var(--font-display);font-size:64px;line-height:1;background:var(--grad-gold-text);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 30px rgba(200,169,81,.35));margin-bottom:18px;}
 .contact__title{font-family:var(--font-display);font-size:var(--fs-display-2);color:var(--cream);line-height:1.08;margin-bottom:18px;text-wrap:balance;}
 .contact__sub{font-family:var(--font-accent);font-style:italic;font-size:var(--fs-accent);color:var(--accent-bright);margin-bottom:40px;}
@@ -559,6 +559,13 @@ body[data-theme]{transition:none;}
 .contact__links a{font-family:var(--font-body);font-size:15px;color:var(--accent-bright);text-decoration:none;letter-spacing:.02em;transition:color var(--transition),background var(--transition);display:inline-flex;align-items:center;gap:9px;padding:10px 20px;border:1px solid rgba(200,169,81,.3);border-radius:var(--radius-pill);white-space:nowrap;}
 .contact__links a:hover{color:var(--cream);background:var(--gold-soft);}
 .contact__disclaimer{font-size:11.5px;color:var(--mute-deep);letter-spacing:.04em;max-width:60ch;margin:0 auto;line-height:1.7;font-style:italic;}
+@media(max-width:560px){
+  .contact{display:block;}
+  .contact__inner{padding-left:18px;padding-right:18px;}
+  .contact__card{width:100%;padding:30px 20px;}
+  .contact__name{white-space:normal;font-size:24px;line-height:1.15;}
+  .contact__role{white-space:normal;}
+}
 
 footer.foot{text-align:center;padding:40px 28px 60px;color:var(--mute-deep);font-size:11px;letter-spacing:.3em;text-transform:uppercase;border-top:var(--border-section);}
 
