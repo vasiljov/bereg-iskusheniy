@@ -282,6 +282,16 @@ body[data-theme]{transition:none;}
   transition:width .35s,background .35s,border-radius .35s;}
 .cn-dot:hover{background:rgba(240,232,218,.6);}
 .cn-dot.is-active{background:var(--gold-bright);width:24px;border-radius:4px;}
+.cn-fs{position:absolute;bottom:14px;right:16px;z-index:4;width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;background:rgba(5,8,10,.55);
+  border:1px solid rgba(255,255,255,.16);cursor:pointer;transition:border-color .3s,background .3s;}
+.cn-fs:hover{border-color:var(--accent);background:rgba(5,8,10,.75);}
+.cn-fs svg{width:18px;height:18px;fill:var(--cream);}
+.cn-fs .ic-exit{display:none;}
+.cn-slideshow:fullscreen,.cn-slideshow:-webkit-full-screen{width:100vw;height:100vh;
+  max-height:none;aspect-ratio:auto;margin:0;border:none;border-radius:0;}
+.cn-slideshow.is-fs .cn-fs .ic-enter{display:none;}
+.cn-slideshow.is-fs .cn-fs .ic-exit{display:block;}
 @media(prefers-reduced-motion:reduce){.cn-slide img,.cn-slide.is-active img{transition:none;transform:none;}}
 
 /* building / capex info under slideshow */
@@ -687,6 +697,31 @@ footer.foot{text-align:center;padding:40px 28px 60px;color:var(--mute-deep);font
 .loc-gallery img{width:100%;height:220px;object-fit:cover;border-radius:var(--radius);border:1px solid rgba(200,169,81,.2);display:block;box-shadow:var(--shadow-card);}
 .loc-gallery--cap{font-size:12.5px;color:var(--mute);text-align:center;margin-top:2px;letter-spacing:.03em;}
 @media(max-width:760px){.loc-gallery{grid-template-columns:repeat(2,1fr);}.loc-gallery img{height:160px;}}
+
+/* ===================== PHOTO LIGHTBOX ===================== */
+.zoom-wrap{position:relative;display:block;line-height:0;}
+.zoomable{cursor:zoom-in;}
+.zoom-badge{position:absolute;top:9px;right:9px;z-index:3;width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;background:rgba(5,8,10,.5);
+  border:1px solid rgba(255,255,255,.22);cursor:pointer;padding:0;
+  opacity:0;transform:scale(.9);transition:opacity .3s,transform .3s,border-color .3s,background .3s;}
+.zoom-wrap:hover .zoom-badge{opacity:1;transform:scale(1);}
+.zoom-badge:hover{border-color:var(--accent);background:rgba(5,8,10,.82);}
+.zoom-badge svg{width:16px;height:16px;fill:var(--cream);}
+@media(hover:none){.zoom-badge{opacity:1;transform:scale(1);}}
+.lightbox{position:fixed;inset:0;z-index:3000;display:none;align-items:center;justify-content:center;
+  background:rgba(4,6,9,.95);padding:24px;cursor:zoom-out;opacity:0;transition:opacity .25s ease;}
+.lightbox.is-open{display:flex;opacity:1;}
+.lightbox__img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
+  border-radius:6px;box-shadow:0 30px 90px rgba(0,0,0,.65);}
+.lightbox__cap{position:fixed;left:0;right:0;bottom:18px;z-index:3001;text-align:center;
+  font-size:13px;color:var(--cream-dim);letter-spacing:.02em;padding:0 24px;pointer-events:none;}
+.lightbox__close{position:fixed;top:16px;right:18px;z-index:3001;width:46px;height:46px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;background:rgba(5,8,10,.6);
+  border:1px solid rgba(255,255,255,.22);color:var(--cream);cursor:pointer;
+  transition:border-color .3s,background .3s;}
+.lightbox__close:hover{border-color:var(--accent);background:rgba(5,8,10,.85);}
+.lightbox__close svg{width:20px;height:20px;fill:var(--cream);}
 
 /* ===================== BASE DEAL TERMS ===================== */
 .deal-base{margin-bottom:26px;padding:30px 32px;border-radius:var(--radius-lg);
