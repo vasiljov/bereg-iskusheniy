@@ -521,7 +521,6 @@
         <img src="assets/restaurant-2.jpg" width="1100" height="707" alt="Терраса ресторана Don David вечером — гирлянды и вид на воду" loading="lazy">
         <img src="assets/restaurant-1.jpg" width="1100" height="824" alt="Сервированный стол у панорамных окон с видом на закат и воду" loading="lazy">
       </div>
-      <figcaption class="loc-gallery--cap">Действующий ресторан-яхт-клуб Don David — реальные вечера у воды</figcaption>
     </figure>
 
     <div class="loc reveal" data-d="1">
@@ -548,7 +547,6 @@
     <div class="loc-estate reveal" data-d="2">
       <figure class="loc-estate__fig">
         <img src="assets/don-david-complex.jpg" width="1500" height="837" alt="Имущественный комплекс Don David — план яхт-клуба и ресторана на Клязьминском водохранилище, 7 км от МКАД" loading="lazy">
-        <figcaption>Имущественный комплекс Don David · Клязьминское водохранилище, г. Долгопрудный — 7 км от МКАД</figcaption>
       </figure>
       <div class="estate-grid">
         <div class="estate-row"><span class="estate-k">Земельный участок</span><span class="estate-v">9 990 м²<small>аренда с правом выкупа</small></span></div>
@@ -978,11 +976,9 @@
     +'<button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Предыдущее фото"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 4.6L8 12l7.4 7.4 1.4-1.4L10.8 12l6-6z"></path></svg></button>'
     +'<button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Следующее фото"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 4.6L16 12l-7.4 7.4-1.4-1.4L13.2 12l-6-6z"></path></svg></button>'
     +'<div class="lightbox__stage"><img class="lightbox__img" alt=""></div>'
-    +'<div class="lightbox__cap"></div>'
     +'<div class="lightbox__count"></div>';
   document.body.appendChild(lb);
   var lbImg=lb.querySelector('.lightbox__img');
-  var lbCap=lb.querySelector('.lightbox__cap');
   var lbCount=lb.querySelector('.lightbox__count');
   var btnPrev=lb.querySelector('.lightbox__nav--prev');
   var btnNext=lb.querySelector('.lightbox__nav--next');
@@ -997,7 +993,6 @@
   function render(){
     var img=imgs[cur];
     lbImg.src=srcOf(img); lbImg.alt=img.alt||'';
-    lbCap.textContent=img.alt||'';
     lbCount.textContent=(cur+1)+' / '+imgs.length;
     resetZoom(false);
     // preload neighbours
