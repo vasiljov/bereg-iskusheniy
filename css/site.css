@@ -314,7 +314,7 @@ body[data-theme]{transition:none;}
 .show-stage{position:relative;margin-top:46px;border-radius:var(--radius-lg);overflow:hidden;
   aspect-ratio:16/9;max-height:74vh;background:#04060A;box-shadow:var(--shadow-card);
   border:1px solid rgba(255,255,255,.08);}
-.show-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+.show-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
   opacity:0;transition:opacity .7s ease;will-change:opacity;background:#04060A;}
 .show-vid.is-on{opacity:1;}
 .show-veil{position:absolute;inset:0;z-index:2;pointer-events:none;
@@ -352,6 +352,12 @@ body[data-theme]{transition:none;}
 .show-chip.is-active .show-chip__no{color:var(--gold-bright);}
 @media(max-width:760px){.show-rail{grid-template-columns:repeat(5,1fr);}}
 @media(max-width:440px){.show-rail{grid-template-columns:repeat(2,1fr);}}
+/* On a phone rotated to landscape, the player fills the whole screen */
+@media(orientation:landscape) and (max-height:540px) and (pointer:coarse){
+  .show-stage.is-fs{position:fixed;inset:0;z-index:2000;margin:0;width:100vw;height:100vh;
+    height:100dvh;max-height:none;aspect-ratio:auto;border:none;border-radius:0;}
+  body.show-fs{overflow:hidden;}
+}
 
 /* total investment summary panel */
 .inv-sum{margin-top:18px;padding:26px 28px 22px;border-radius:var(--radius-lg);

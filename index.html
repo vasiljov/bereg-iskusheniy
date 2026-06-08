@@ -159,7 +159,7 @@
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">Шоу-программа</span>
-      <h2 class="sec-title">Вот как может выглядить вечер на сцене</h2>
+      <h2 class="sec-title">Вот как может выглядеть вечер на сцене</h2>
       <p class="sec-sub">Танцевальные, цирковые, иллюзионные номера и водное шоу — программа кабаре в действии. Плеер проигрывает их подряд; выберите любой номер на таймлайне. Не забудьте включить звук.</p>
     </div>
   </div>
@@ -306,6 +306,21 @@
       });
     },{threshold:[0,0.5,1]});
     io.observe(stage);
+
+    /* --- phone: rotate to landscape → player goes fullscreen --- */
+    var mql=window.matchMedia('(orientation:landscape) and (max-height:540px) and (pointer:coarse)');
+    function applyOrient(){
+      var fs=mql.matches;
+      stage.classList.toggle('is-fs',fs);
+      document.body.classList.toggle('show-fs',fs);
+      if(fs){
+        if(!started){started=true;go(0);}
+        else{var v=layers[showing];if(v&&v.paused&&wantPlay){var pr=v.play();if(pr&&pr.catch)pr.catch(function(){});}}
+      }
+    }
+    if(mql.addEventListener)mql.addEventListener('change',applyOrient);
+    else if(mql.addListener)mql.addListener(applyOrient);
+    applyOrient();
   })();
   </script>
 
