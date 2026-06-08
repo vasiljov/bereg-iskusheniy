@@ -338,6 +338,13 @@ body[data-theme]{transition:none;}
 .show-mute .ic-on{display:none;}
 .show-stage:not(.is-muted) .show-mute .ic-on{display:block;}
 .show-stage:not(.is-muted) .show-mute .ic-off{display:none;}
+/* fullscreen button (sits left of mute) */
+.show-fs{position:absolute;bottom:16px;right:68px;z-index:4;width:42px;height:42px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;background:rgba(5,8,10,.55);
+  border:1px solid rgba(255,255,255,.16);cursor:pointer;transition:border-color .3s,background .3s;}
+.show-fs:hover{border-color:var(--accent);background:rgba(5,8,10,.75);}
+.show-fs svg{width:19px;height:19px;fill:var(--cream);}
+.show-fs .ic-exit{display:none;}
 
 .show-rail{display:grid;grid-template-columns:repeat(10,1fr);gap:8px;margin-top:16px;}
 .show-chip{position:relative;text-align:left;background:rgba(10,13,16,.55);
@@ -352,12 +359,12 @@ body[data-theme]{transition:none;}
 .show-chip.is-active .show-chip__no{color:var(--gold-bright);}
 @media(max-width:760px){.show-rail{grid-template-columns:repeat(5,1fr);}}
 @media(max-width:440px){.show-rail{grid-template-columns:repeat(2,1fr);}}
-/* On a phone rotated to landscape, the player fills the whole screen */
-@media(orientation:landscape) and (max-height:540px) and (pointer:coarse){
-  .show-stage.is-fs{position:fixed;inset:0;z-index:2000;margin:0;width:100vw;height:100vh;
-    height:100dvh;max-height:none;aspect-ratio:auto;border:none;border-radius:0;}
-  body.show-fs{overflow:hidden;}
-}
+/* Real fullscreen (hides the browser bars) — player fills the whole screen */
+.show-stage:fullscreen,.show-stage:-webkit-full-screen{width:100vw;height:100vh;
+  max-height:none;aspect-ratio:auto;margin:0;border:none;border-radius:0;}
+.show-stage:fullscreen .show-vid,.show-stage:-webkit-full-screen .show-vid{object-fit:cover;}
+.show-stage.is-fs .show-fs .ic-enter{display:none;}
+.show-stage.is-fs .show-fs .ic-exit{display:block;}
 
 /* total investment summary panel */
 .inv-sum{margin-top:18px;padding:26px 28px 22px;border-radius:var(--radius-lg);

@@ -177,6 +177,10 @@
         <svg class="ic-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 5V4L8 9H4zm12.6 3l2.7-2.7-1.1-1.1L15.5 11l-2.7-2.7-1.1 1.1L14.4 12l-2.7 2.7 1.1 1.1 2.7-2.7 2.7 2.7 1.1-1.1L16.6 12z"></path></svg>
         <svg class="ic-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 5V4L8 9H4zm11.5 3a4 4 0 00-2.3-3.6v7.2A4 4 0 0015.5 12zm-2.3-7.7v2.1c2.9.9 5 3.5 5 6.6s-2.1 5.7-5 6.6v2.1c4-.9 7-4.5 7-8.7s-3-7.8-7-8.7z"></path></svg>
       </button>
+      <button class="show-fs" type="button" aria-label="Во весь экран">
+        <svg class="ic-enter" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5v2H6v3H4zm0 6h2v3h3v2H4v-5zm16 0v5h-5v-2h3v-3h2zm0-6h-2V6h-3V4h5v5z"></path></svg>
+        <svg class="ic-exit" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9V4H7v3H4v2h5zm6 0h5V7h-3V4h-2v5zM9 15H4v2h3v3h2v-5zm6 0v5h2v-3h3v-2h-5z"></path></svg>
+      </button>
     </div>
 
     <div class="show-rail reveal" data-d="2">
@@ -307,20 +311,41 @@
     },{threshold:[0,0.5,1]});
     io.observe(stage);
 
-    /* --- phone: rotate to landscape → player goes fullscreen --- */
-    var mql=window.matchMedia('(orientation:landscape) and (max-height:540px) and (pointer:coarse)');
-    function applyOrient(){
-      var fs=mql.matches;
-      stage.classList.toggle('is-fs',fs);
-      document.body.classList.toggle('show-fs',fs);
-      if(fs){
-        if(!started){started=true;go(0);}
-        else{var v=layers[showing];if(v&&v.paused&&wantPlay){var pr=v.play();if(pr&&pr.catch)pr.catch(function(){});}}
-      }
+    /* ---------- fullscreen (real, hides browser bars) ---------- */
+    var fsBtn=stage.querySelector('.show-fs');
+    function fsEl(){return document.fullscreenElement||document.webkitFullscreenElement;}
+    function enterFS(){
+      if(fsEl())return;
+      if(!started){started=true;go(0);}
+      var p;
+      if(stage.requestFullscreen)p=stage.requestFullscreen();
+      else if(stage.webkitRequestFullscreen)p=stage.webkitRequestFullscreen();
+      else if(layers[showing].webkitEnterFullscreen){layers[showing].webkitEnterFullscreen();return;}
+      var lock=function(){try{if(screen.orientation&&screen.orientation.lock)screen.orientation.lock('landscape').catch(function(){});}catch(e){}};
+      if(p&&p.then)p.then(lock).catch(function(){});else lock();
     }
-    if(mql.addEventListener)mql.addEventListener('change',applyOrient);
-    else if(mql.addListener)mql.addListener(applyOrient);
-    applyOrient();
+    function exitFS(){
+      try{if(screen.orientation&&screen.orientation.unlock)screen.orientation.unlock();}catch(e){}
+      if(document.exitFullscreen)document.exitFullscreen().catch(function(){});
+      else if(document.webkitExitFullscreen)document.webkitExitFullscreen();
+    }
+    if(fsBtn)fsBtn.addEventListener('click',function(e){e.stopPropagation();fsEl()?exitFS():enterFS();});
+    function syncFS(){
+      var on=!!fsEl();
+      stage.classList.toggle('is-fs',on);
+      if(on){var v=layers[showing];if(v&&v.paused){var pr=v.play();if(pr&&pr.catch)pr.catch(function(){});}}
+    }
+    document.addEventListener('fullscreenchange',syncFS);
+    document.addEventListener('webkitfullscreenchange',syncFS);
+
+    /* best-effort: if you rotate to landscape WHILE the show is playing, go fullscreen */
+    var mql=window.matchMedia('(orientation:landscape) and (pointer:coarse)');
+    function onOrient(){
+      if(mql.matches){ if(started&&isPlaying()&&!fsEl()) enterFS(); }
+      else if(fsEl()) exitFS();
+    }
+    if(mql.addEventListener)mql.addEventListener('change',onOrient);
+    else if(mql.addListener)mql.addListener(onOrient);
   })();
   </script>
 
