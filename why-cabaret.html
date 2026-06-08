@@ -55,17 +55,21 @@
 
   /* per-seat bars */
   .bars{margin-top:32px;display:flex;flex-direction:column;gap:20px;}
-  .bar-row{display:grid;grid-template-columns:190px 1fr;gap:18px;align-items:center;}
+  .bar-row{display:grid;grid-template-columns:185px 1fr auto;gap:16px;align-items:center;}
   .bar-row .nm{font-size:14px;color:var(--cream-dim);text-align:right;}
   .bar-row .nm b{display:block;color:var(--cream);font-weight:600;font-size:14.5px;}
-  .bar-track{position:relative;height:38px;background:rgba(255,255,255,.05);border-radius:8px;overflow:hidden;}
-  .bar-fill{position:absolute;inset:0 auto 0 0;display:flex;align-items:center;justify-content:flex-end;
-    padding-right:14px;border-radius:8px;font-family:var(--font-mono);font-size:13px;color:#1A1409;font-weight:600;
+  .bar-track{position:relative;height:34px;background:rgba(255,255,255,.05);border-radius:8px;overflow:hidden;}
+  .bar-fill{position:absolute;inset:0 auto 0 0;border-radius:8px;
     background:linear-gradient(90deg,var(--gold-deep),var(--gold-bright));}
-  .bar-fill.cabaret{background:linear-gradient(90deg,var(--berry-deep),var(--gold));color:var(--cream);}
-  .bar-fill.muted{background:linear-gradient(90deg,#3a4146,#5a646b);color:var(--cream);}
-  .bar-out{position:absolute;top:0;height:38px;display:flex;align-items:center;padding-left:12px;
-    font-family:var(--font-mono);font-size:13px;color:var(--cream-dim);white-space:nowrap;}
+  .bar-fill.cabaret{background:linear-gradient(90deg,var(--berry-deep),var(--gold));}
+  .bar-fill.muted{background:linear-gradient(90deg,#3a4146,#5a646b);}
+  .bar-val{font-family:var(--font-mono);font-size:13px;color:var(--cream-dim);white-space:nowrap;}
+  .bar-val.hl{color:var(--gold-bright);font-weight:600;}
+  @media(max-width:640px){
+    .bar-row{grid-template-columns:1fr;gap:7px;}
+    .bar-row .nm{text-align:left;}
+    .bar-val{white-space:normal;font-size:12.5px;color:var(--cream);}
+  }
   .note{font-size:13px;color:var(--mute);margin-top:18px;font-style:italic;line-height:1.55;}
 
   /* timeline */
@@ -211,27 +215,33 @@
     <div class="bars reveal" data-d="1">
       <div class="bar-row">
         <div class="nm"><b>Moulin Rouge</b>850 мест · Париж</div>
-        <div class="bar-track"><div class="bar-fill" style="width:100%;">≈ ₽9,1 млн (€96 тыс.) прибыли / место</div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%;"></div></div>
+        <div class="bar-val">≈ ₽9,1 млн (€96 тыс.) прибыли / место</div>
       </div>
       <div class="bar-row">
         <div class="nm"><b>Crave (факт 2024)</b>~200 мест · кабаре</div>
-        <div class="bar-track"><div class="bar-fill" style="width:82%;">≈ ₽7,5 млн выручки / место</div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:82%;"></div></div>
+        <div class="bar-val">≈ ₽7,5 млн выручки / место</div>
       </div>
       <div class="bar-row">
         <div class="nm"><b>Берег Искушений</b>400 мест · консервативный сценарий</div>
-        <div class="bar-track"><div class="bar-fill cabaret" style="width:81%;">≈ ₽7,4 млн выручки / место</div></div>
+        <div class="bar-track"><div class="bar-fill cabaret" style="width:81%;"></div></div>
+        <div class="bar-val hl">≈ ₽7,4 млн выручки / место</div>
       </div>
       <div class="bar-row">
         <div class="nm"><b>KRASOTA</b>гастротеатр · шоу-формат</div>
-        <div class="bar-track"><div class="bar-fill muted" style="width:59%;">≈ ₽5,4 млн / место</div></div>
+        <div class="bar-track"><div class="bar-fill muted" style="width:59%;"></div></div>
+        <div class="bar-val">≈ ₽5,4 млн / место</div>
       </div>
       <div class="bar-row">
         <div class="nm"><b>Кафе Пушкинъ</b>«чистый» премиум-ресторан · чек ₽3 500</div>
-        <div class="bar-track"><div class="bar-fill muted" style="width:27%;">≈ ₽2,5 млн / место</div></div>
+        <div class="bar-track"><div class="bar-fill muted" style="width:27%;"></div></div>
+        <div class="bar-val">≈ ₽2,5 млн / место</div>
       </div>
       <div class="bar-row">
         <div class="nm"><b>Обычный ресторан</b>ср. чек ₽800–1 200</div>
-        <div class="bar-track"><div class="bar-fill muted" style="width:5%;"></div><div class="bar-out" style="left:5%;">≈ ₽0,3–0,5 млн / место</div></div>
+        <div class="bar-track"><div class="bar-fill muted" style="width:5%;"></div></div>
+        <div class="bar-val">≈ ₽0,3–0,5 млн / место</div>
       </div>
     </div>
     <p class="note">Доход на место = средний чек × оборот посадки × дней в году. Кабаре сажает место один раз за вечер при чеке ~₽23 тыс. (билет + ужин + бар); ресторан крутит место 1,5–2,5 раза в день при меньшем чеке. Итог: консервативные ₽7,4 млн с места — это <b>×3</b> к лучшему «чистому» ресторану (Кафе Пушкинъ) и <b>×15–25</b> к обычному (₽0,3–0,5 млн с места). Тезис «1 место = 15–25 мест» подтверждается для обычного ресторана. Пушкинъ и обычный ресторан — расчёт по юнит-экономике (ср. чек Forbes/Wiki); суммы в ₽ (курс ~₽95/€), у Moulin Rouge — прибыль.</p>
@@ -444,7 +454,7 @@
     </div>
 
     <div class="callout reveal" data-d="2">
-      <div class="ct">«Главный барьер входа — не деньги, а время на создание репертуара. Crave потратил 8 лет на 5 шоу. Мы стартуем с готовой библиотекой и собственной школой, которая её пополняет.»</div>
+      <div class="ct">«Главный барьер входа — не деньги, а время на создание репертуара. Crave потратил 8 лет на 5 шоу. Мы стартуем с готовой шоу-программой и собственной школой, которая её пополняет.»</div>
     </div>
   </div>
 </section>

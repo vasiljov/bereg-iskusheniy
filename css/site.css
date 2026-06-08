@@ -626,7 +626,7 @@ footer.foot{text-align:center;padding:40px 28px 60px;color:var(--mute-deep);font
 .hero__stats{display:flex;flex-wrap:wrap;justify-content:center;margin-top:30px;
   border:1px solid rgba(200,169,81,.22);border-radius:var(--radius-pill);
   background:rgba(5,8,10,.42);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);overflow:hidden;}
-.hstat{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 30px;
+.hstat{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:14px 30px;
   border-right:1px solid rgba(200,169,81,.16);}
 .hstat:last-child{border-right:none;}
 .hstat__v{font-family:var(--font-display);font-size:25px;line-height:1;color:var(--gold-bright);}
