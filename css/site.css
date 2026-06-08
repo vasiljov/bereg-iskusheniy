@@ -697,6 +697,7 @@ footer.foot{text-align:center;padding:40px 28px 60px;color:var(--mute-deep);font
 .loc-gallery img{width:100%;height:220px;object-fit:cover;border-radius:var(--radius);border:1px solid rgba(200,169,81,.2);display:block;box-shadow:var(--shadow-card);}
 .loc-gallery--cap{font-size:12.5px;color:var(--mute);text-align:center;margin-top:2px;letter-spacing:.03em;}
 @media(max-width:760px){.loc-gallery{grid-template-columns:repeat(2,1fr);}.loc-gallery img{height:160px;}}
+@media(max-width:560px){.loc-gallery{grid-template-columns:1fr;gap:14px;}.loc-gallery img{height:auto;aspect-ratio:3/2;}}
 
 /* ===================== PHOTO LIGHTBOX ===================== */
 .zoom-wrap{position:relative;display:block;line-height:0;}
