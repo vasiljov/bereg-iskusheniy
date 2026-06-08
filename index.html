@@ -331,7 +331,7 @@
     }
     if(fsBtn)fsBtn.addEventListener('click',function(e){e.stopPropagation();fsEl()?exitFS():enterFS();});
     function syncFS(){
-      var on=!!fsEl();
+      var on=fsEl()===stage;
       stage.classList.toggle('is-fs',on);
       if(on){var v=layers[showing];if(v&&v.paused){var pr=v.play();if(pr&&pr.catch)pr.catch(function(){});}}
     }
@@ -496,7 +496,7 @@
       else if(document.webkitExitFullscreen)document.webkitExitFullscreen();
     }
     if(fsBtn)fsBtn.addEventListener('click',function(){fsEl()?exitFS():enterFS();});
-    function syncFS(){root.classList.toggle('is-fs',!!fsEl());}
+    function syncFS(){root.classList.toggle('is-fs',fsEl()===root);}
     document.addEventListener('fullscreenchange',syncFS);
     document.addEventListener('webkitfullscreenchange',syncFS);
     // Если вкладка была неактивна и таймер сбросился — гарантированно перезапускаем.
@@ -987,6 +987,11 @@
   var btnPrev=lb.querySelector('.lightbox__nav--prev');
   var btnNext=lb.querySelector('.lightbox__nav--next');
   var lastFocus=null, cur=0;
+  var wantFS=window.matchMedia('(pointer:coarse)').matches;
+
+  function fsEl(){return document.fullscreenElement||document.webkitFullscreenElement;}
+  function reqFS(el){try{if(el.requestFullscreen)return el.requestFullscreen();if(el.webkitRequestFullscreen)return el.webkitRequestFullscreen();}catch(e){}}
+  function exitFS(){try{if(document.exitFullscreen)return document.exitFullscreen();if(document.webkitExitFullscreen)return document.webkitExitFullscreen();}catch(e){}}
 
   function srcOf(img){return img.getAttribute('src')||img.currentSrc||img.src;}
   function render(){
@@ -1004,15 +1009,22 @@
     lb.classList.add('is-open');
     document.documentElement.style.overflow='hidden';
     document.body.style.overflow='hidden';
+    if(wantFS&&!fsEl()){var p=reqFS(lb);if(p&&p.then)p.then(function(){try{if(screen.orientation&&screen.orientation.unlock)screen.orientation.unlock();}catch(e){}}).catch(function(){});}
   }
   function close(){
     lb.classList.remove('is-open');
     document.documentElement.style.overflow='';
     document.body.style.overflow='';
-    setTimeout(function(){lbImg.src='';},250);
+    setTimeout(function(){if(!lb.classList.contains('is-open'))lbImg.removeAttribute('src');},250);
+    if(fsEl()===lb)exitFS();
     if(lastFocus&&lastFocus.focus)try{lastFocus.focus();}catch(e){}
   }
   function go(d){cur=(cur+d+imgs.length)%imgs.length;render();}
+
+  // if the user leaves real fullscreen (swipe/Esc) while open, close the viewer
+  function onFsChange(){if(lb.classList.contains('is-open')&&!fsEl())close();}
+  document.addEventListener('fullscreenchange',onFsChange);
+  document.addEventListener('webkitfullscreenchange',onFsChange);
 
   lb.addEventListener('click',function(e){if(e.target===lb||e.target.classList.contains('lightbox__stage'))close();});
   lb.querySelector('.lightbox__close').addEventListener('click',function(e){e.stopPropagation();close();});
